@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en">
+    <head>
+        <title>Delete Data</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <script src="http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
+
+    </head>
+    <body>
+        <div class="container">
+            <h2>Information Deletion form</h2>
+            <form id="empForm" method="post">
+                <div class="form-group">
+                    <span><label for="sId">Enter Roll Number You Want to Delete:</label> <label id="sIdMsg">
+                        </label></span>
+                    <input type="text" class="form-control" name="sId" id="sId"
+                           placeholder="Enter Roll Number" required>
+                </div>
+                
+                <input type="button" class="btn btn-primary" id="sSave" value="Save"
+                       onclick="saveDetails();">
+            </form>
+        </div>
+        <script>
+            $("#sId").focus();
+            function GetData() {
+                var sIdVar = $("#sId").val();
+                if (sIdVar === "") {
+                    alert("Student Roll Number Required Value");
+                    $("#sId").focus();
+                    return "";
+                }
+               
+                
+               
+                return sIdVar;
+            }
+            
+            function resetForm() {
+                $("#sId").val("")
+   
+            }
+            function saveDetails() {
+                var jsonStr = GetData();
+                if (jsonStr === "") {
+                    return;
+                }
+                
+
+                
+                var DeleteReqStr = createREMOVERecordRequest("90935603|-31948840323626871|90933276", "student", "student-REL", jsonStr);
+                alert(DeleteReqStr);
+                jQuery.ajaxSetup({async: false});
+                var resultObj = executeCommandAtGivenBaseUrl(DeleteReqStr,
+                        "http://api.login2explore.com:5577", "/api/iml");
+                alert(JSON.stringify(resultObj));
+                jQuery.ajaxSetup({async: true});
+                resetForm();
+            }
+        </script>
+    </body>
+</html>
+
+
